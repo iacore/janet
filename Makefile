@@ -41,9 +41,9 @@ DEBUGGER=gdb
 SONAME_SETTER=-Wl,-soname,
 
 # For cross compilation
-HOSTCC?=$(CC)
+HOSTCC?=zig cc
 HOSTAR?=$(AR)
-CFLAGS?=-O2
+CFLAGS?=-Oz --target=native-native-musl
 LDFLAGS?=-rdynamic
 
 COMMON_CFLAGS:=-std=c99 -Wall -Wextra -Isrc/include -Isrc/conf -fvisibility=hidden -fPIC
@@ -190,6 +190,7 @@ build/shell.o: build/c/shell.c src/conf/janetconf.h src/include/janet.h
 
 $(JANET_TARGET): build/janet.o build/shell.o
 	$(HOSTCC) $(LDFLAGS) $(BUILD_CFLAGS) -o $@ $^ $(CLIBS)
+	strip $@
 
 $(JANET_LIBRARY): build/janet.o build/shell.o
 	$(HOSTCC) $(LDFLAGS) $(BUILD_CFLAGS) $(SONAME_SETTER)$(SONAME) -shared -o $@ $^ $(CLIBS)
