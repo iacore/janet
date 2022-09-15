@@ -43,7 +43,8 @@ SONAME_SETTER=-Wl,-soname,
 # For cross compilation
 HOSTCC?=zig cc
 HOSTAR?=$(AR)
-CFLAGS?=-Oz --target=native-native-musl
+#CFLAGS?=-O2 --target=native-native-musl
+CFLAGS?=-Oz --target=wasm32-wasi-musl -I /home/user/computing/compiler/emscripten-3.1.9-git/system/lib/libc/musl/arch/emscripten/ -I /home/user/computing/compiler/emscripten-3.1.9-git/system/lib/libc/musl/include
 LDFLAGS?=-rdynamic
 
 COMMON_CFLAGS:=-std=c99 -Wall -Wextra -Isrc/include -Isrc/conf -fvisibility=hidden -fPIC

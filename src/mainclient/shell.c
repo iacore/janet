@@ -318,6 +318,10 @@ static int getcols(void) {
     GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
     return (int)(csbi.srWindow.Right - csbi.srWindow.Left + 1);
 #else
+    #ifndef TIOCGWINSZ
+    #define TIOCGWINSZ	0x5413
+    #endif
+
     struct winsize ws;
     if (ioctl(1, TIOCGWINSZ, &ws) == -1 || ws.ws_col == 0) {
         int start, cols;
